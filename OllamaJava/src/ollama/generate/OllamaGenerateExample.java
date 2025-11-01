@@ -39,6 +39,9 @@ public class OllamaGenerateExample {
 	// 定義媒體(MediaType)型別為 json
 	private static final MediaType JSON = MediaType.get("application/json;charset=utf-8");
 	
+	// 是否支援 stream
+	private static final Boolean IS_STREAM = true;
+	
 	public static void main(String[] args) throws Exception {
 		
 		//---------------------------------------------------
@@ -48,9 +51,10 @@ public class OllamaGenerateExample {
 				{
 					"model":"qwen3:4b",
 					"prompt": "請用中文介紹 Java 程式語言",
-					"stream": false
+					"stream": %b
 				}
 				""";
+		jsonBody = String.format(jsonBody, IS_STREAM);
 		System.out.printf("要發送的 JSON:%n%s%n", jsonBody);
 		
 		//---------------------------------------------------
@@ -88,7 +92,6 @@ public class OllamaGenerateExample {
 			
 			// 取得回應內容
 			String responseBody = response.body().string();
-			
 			System.out.printf("%n回應碼: %s%n", response.code());
 			System.out.printf("完整回應: %s%n", responseBody);
 			
