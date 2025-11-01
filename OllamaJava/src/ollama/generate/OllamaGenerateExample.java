@@ -3,6 +3,7 @@ package ollama.generate;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
@@ -47,20 +48,33 @@ public class OllamaGenerateExample {
 	
 	
 	public static void main(String[] args) throws Exception {
+		Scanner scanner = new Scanner(System.in);
+		
+		// 選擇模型(1:llama3.1:8b, 2:qwen3:4b, 3:qwen3:0.6b)
+		String[] modelNames = {"llama3.1:8b", "qwen3:4b", "qwen3:0.6b"};
+		System.out.print("請選擇模型(0:llama3.1:8b, 1:qwen3:4b, 2:qwen3:0.6b) => ");
+		int modelIndex = scanner.nextInt();
+		String modelName = modelNames[modelIndex];
+		
+		// 問題文字
+		System.out.print("請輸入問題(不要有空格) => ");
+		String question = scanner.next();
+		
 		// 是否支援 stream
 		Boolean supportStream = true;
+		
 		
 		//---------------------------------------------------
 		// 1. 建立 JSON 請求內容
 		//---------------------------------------------------
 		String jsonBody = """
 				{
-					"model":"qwen3:4b",
-					"prompt": "請用中文介紹 Java 程式語言",
+					"model":"%s",
+					"prompt": "%s",
 					"stream": %b
 				}
 				""";
-		jsonBody = String.format(jsonBody, supportStream);
+		jsonBody = String.format(jsonBody, modelName, question, supportStream);
 		System.out.printf("要發送的 JSON:%n%s%n", jsonBody);
 		
 		//---------------------------------------------------
