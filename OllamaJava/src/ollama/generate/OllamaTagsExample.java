@@ -1,5 +1,10 @@
 package ollama.generate;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -29,6 +34,22 @@ public class OllamaTagsExample {
 			
 			String responseBody = response.body().string();
 			System.out.printf("完整回應: %s%n", responseBody);
+			
+			// 分析出模型名稱
+			JsonObject jsonObj = JsonParser.parseString(responseBody).getAsJsonObject();
+			JsonArray models = jsonObj.getAsJsonArray("models");
+			
+			// case 1
+			models.asList().forEach((jsonElement) -> {
+				System.out.println(jsonElement.getAsJsonObject().get("name").getAsString());
+			});
+			
+			// case 2
+			for(int i=0;i<models.size();i++) {
+				System.out.println(models.get(i).getAsJsonObject().get("name").getAsString());
+			}
+			
+			
 			
 		}
 		
