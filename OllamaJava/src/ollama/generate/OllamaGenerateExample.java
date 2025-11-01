@@ -1,5 +1,8 @@
 package ollama.generate;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -91,9 +94,22 @@ public class OllamaGenerateExample {
 			}
 			
 			// 取得回應內容
-			String responseBody = response.body().string();
-			System.out.printf("%n回應碼: %s%n", response.code());
-			System.out.printf("完整回應: %s%n", responseBody);
+			if(supportStream) { // "stream": true
+				try(InputStream        is = response.body().byteStream(); // 單位 byte 
+					InputStreamReader isr = new InputStreamReader(is, "UTF-8"); // 單位 char
+					BufferedReader reader = new BufferedReader(isr)) { // 可逐行讀取
+					
+					String line = null;
+					while((line = reader.readLine()) != null) {
+						System.out.print(line); // 逐字顯示
+					}
+				}
+				
+			} else { // "stream": false
+				String responseBody = response.body().string();
+				System.out.printf("%n回應碼: %s%n", response.code());
+				System.out.printf("完整回應: %s%n", responseBody);
+			}
 			
 		}
 		
