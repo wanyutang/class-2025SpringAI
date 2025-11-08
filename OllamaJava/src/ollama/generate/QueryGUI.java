@@ -167,6 +167,10 @@ public class QueryGUI extends JFrame {
 		String modelName = (String) modelCombo.getSelectedItem();
 		String symbol = symbolField.getText().trim();
 		String prompt = TwseDataDownload.getStringDataWithPrompt(symbol);
+		
+		// 驗證 prompt 是否有資料
+		if(!validatePrompt(prompt)) return;
+		
 		String fullPrompt = prompt + " " + askField.getText().trim();
 		QueryCallback callback = new QueryCallback() {
 			
@@ -208,6 +212,14 @@ public class QueryGUI extends JFrame {
 	private boolean validateInput() {
 		if(symbolField.getText().trim().isEmpty() || askField.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "請填入股票代號與提問內容");
+			return false;
+		}
+		return true;
+	}
+	// 資料驗證
+	private boolean validatePrompt(String prompt) {
+		if(prompt == null) {
+			JOptionPane.showMessageDialog(this, "查無股票代號");
 			return false;
 		}
 		return true;
