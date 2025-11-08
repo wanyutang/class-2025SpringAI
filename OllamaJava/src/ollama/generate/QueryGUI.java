@@ -124,10 +124,14 @@ public class QueryGUI extends JFrame {
 		resultArea = new JTextArea();
 		resultArea.setLineWrap(true); // 允許自動換行
 		resultArea.setWrapStyleWord(true); // 設定自動換行時，避免單詞被切斷
-		resultArea.setFont(new Font("Arial", Font.PLAIN, 16)); // 設定字體,風格,大小
+		resultArea.setFont(new Font("sansserif", Font.PLAIN, 16)); // 設定字體,風格,大小
 		// 建立 JScrollPane 容器用來包覆 resultArea 用於滾動條的支援
 		JScrollPane resultScroll = new JScrollPane(resultArea);
 		resultScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 總是顯示垂直滾動條
+		
+		// -- 創建 "警語" 元件 ------------------------
+		JLabel footerLabel = new JLabel(" ** 投資之前，應該充分了解相關公告等相關信息，以便做出明智的投資決策 ** ");
+		footerLabel.setFont(new Font("sansserif", Font.PLAIN, 14)); // 設定字體,風格,大小
 		
 		// 將 formPanel 放在 QueryGUI 主畫面的上方
 		add(formPanel, BorderLayout.NORTH);
@@ -135,6 +139,9 @@ public class QueryGUI extends JFrame {
 		// 將 resultScroll 放在 QueryGUI 主畫面的中央
 		add(resultScroll, BorderLayout.CENTER);
 		
+		// 將 resultScroll 放在 QueryGUI 主畫面的下方c
+		add(footerLabel, BorderLayout.SOUTH);
+				
 	}
 	
 	public static void main(String[] args) {
