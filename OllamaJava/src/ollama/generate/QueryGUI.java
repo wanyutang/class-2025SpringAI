@@ -172,6 +172,9 @@ public class QueryGUI extends JFrame {
 		// 驗證 prompt 是否有資料
 		if(!validatePrompt(prompt)) return;
 		
+		// 關閉元件互動
+		disableInputs(true);
+		
 		String fullPrompt = prompt + " " + askField.getText().trim();
 		QueryCallback callback = new QueryCallback() {
 			
@@ -186,6 +189,8 @@ public class QueryGUI extends JFrame {
 			public void onHttpError(int code) {
 				SwingUtilities.invokeLater(() -> {
 					resultArea.setText("HTTP 請求失敗, HTTP 狀態碼: " + code);
+					// 開啟元件互動
+					disableInputs(false);
 				});
 			}
 			
@@ -193,6 +198,8 @@ public class QueryGUI extends JFrame {
 			public void onError(String message) {
 				SwingUtilities.invokeLater(() -> {
 					resultArea.setText("執行錯誤: " + message);
+					// 開啟元件互動
+					disableInputs(false);
 				});
 			}
 			
@@ -200,6 +207,8 @@ public class QueryGUI extends JFrame {
 			public void onComplete() {
 				SwingUtilities.invokeLater(() -> {
 					resultArea.append("\n查詢完成 !");
+					// 開啟元件互動
+					disableInputs(false);
 				});
 			}
 		};
@@ -224,6 +233,14 @@ public class QueryGUI extends JFrame {
 			return false;
 		}
 		return true;
+	}
+	
+	// 是否關閉元件互動
+	private void disableInputs(boolean disable) {
+		queryBtn.setEnabled(!disable);
+		modelCombo.setEditable(!disable);
+		symbolField.setEnabled(!disable);
+		askField.setEditable(!disable);
 	}
 	
 	public static void main(String[] args) {
