@@ -196,6 +196,8 @@ public class QueryGUI extends JFrame {
 			}
 		};
 		
+		// 執行
+		queryExecutor.execute(modelName, fullPrompt, callback);
 		
 	}
 	
