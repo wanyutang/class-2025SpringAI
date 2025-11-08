@@ -140,7 +140,7 @@ public class QueryGUI extends JFrame {
 		queryBtn = new JButton("查詢");
 		// 元件放置位置
 		gbc.gridx = 1;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		// 設定 button 不填滿整個格子大小(預設大小即可)
 		gbc.fill = GridBagConstraints.NONE;
 		// 將元件加入到 formPanel 中
@@ -177,7 +177,14 @@ public class QueryGUI extends JFrame {
 	
 	// 初始監聽
 	private void initListeners() {
+		askDefaultCombo.addActionListener(e -> {
+			if(askDefaultCombo.getSelectedIndex() != 0) {
+				askField.setText((String)askDefaultCombo.getSelectedItem());
+			}
+		});
 		queryBtn.addActionListener(e -> onQueryClicked());
+		
+		
 	}
 	
 	// 當查詢鍵被按下時所要做的事
