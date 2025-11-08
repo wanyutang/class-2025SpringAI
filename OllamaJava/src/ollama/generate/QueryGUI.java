@@ -42,7 +42,7 @@ public class QueryGUI extends JFrame {
 	};
 	
 	private static final String[] ASK_DEFAULT = {
-			"",
+			"請選擇",
 			"基於目前本益比、殖利率和股價淨值比，是否適合買入該股票？", 
 			"請分析該股票目前的估值是否合理，是否有高估或低估的風險？",
 			"該股票的財務指標顯示其股價有何投資潛力和風險？",
