@@ -126,6 +126,7 @@ public class QueryGUI extends JFrame {
 		
 		// -- 創建 "多行文本區域" 元件 ------------------------
 		resultArea = new JTextArea();
+		resultArea.setEditable(false); // 使用者不可編輯
 		resultArea.setLineWrap(true); // 允許自動換行
 		resultArea.setWrapStyleWord(true); // 設定自動換行時，避免單詞被切斷
 		resultArea.setFont(new Font("sansserif", Font.PLAIN, 16)); // 設定字體,風格,大小
