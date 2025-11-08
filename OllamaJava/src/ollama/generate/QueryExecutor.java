@@ -4,6 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * QueryExecutor 負責與指定的 AI 模型生成 API 進行溝通，
@@ -47,6 +50,27 @@ public class QueryExecutor {
 		// 建立執行緒工作
 		Runnable runnable = () -> {
 			try {
+				String jsonBody = String.format("""
+						{
+							"model":"%s",
+							"prompt":"%s",
+							"stream":true
+						}
+						
+						""", modelName, fullPrompt.replace("\n", "\\\"")); // 避免 json 字串中使用跳脫字元的錯誤
+				
+				RequestBody body = RequestBody.create(jsonBody, JSON);
+				
+				Request request = new Request.Builder()
+						.url(GENERATE_WEB_API)
+						.post(body)
+						.build();
+				
+				try(Response response = client.newCall(request).execute()) {
+				
+					
+					
+				}
 				
 			} catch (Exception e) {
 				callback.onError(e.getMessage());
