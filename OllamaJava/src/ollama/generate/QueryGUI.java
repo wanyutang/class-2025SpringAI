@@ -1,6 +1,7 @@
 package ollama.generate;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -117,11 +119,21 @@ public class QueryGUI extends JFrame {
 		gbc.fill = GridBagConstraints.NONE;
 		// 將元件加入到 formPanel 中
 		formPanel.add(queryBtn, gbc);
-				
+		
+		// -- 創建 "多行文本區域" 元件 ------------------------
+		resultArea = new JTextArea();
+		resultArea.setLineWrap(true); // 允許自動換行
+		resultArea.setWrapStyleWord(true); // 設定自動換行時，避免單詞被切斷
+		resultArea.setFont(new Font("Arial", Font.PLAIN, 16)); // 設定字體,風格,大小
+		// 建立 JScrollPane 容器用來包覆 resultArea 用於滾動條的支援
+		JScrollPane resultScroll = new JScrollPane(resultArea);
+		resultScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 總是顯示垂直滾動條
 		
 		// 將 formPanel 放在 QueryGUI 主畫面的上方
 		add(formPanel, BorderLayout.NORTH);
 		
+		// 將 resultScroll 放在 QueryGUI 主畫面的中央
+		add(resultScroll, BorderLayout.CENTER);
 		
 	}
 	
