@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -158,6 +159,8 @@ public class QueryGUI extends JFrame {
 	
 	// 當查詢鍵被按下時所要做的事
 	private void onQueryClicked() {
+		// 資料驗證
+		if(!validateInput()) return;
 		
 		resultArea.setText(""); // 清空上一筆查詢結果資料
 		// AI 所需相關參數建立
@@ -199,6 +202,14 @@ public class QueryGUI extends JFrame {
 		// 執行
 		queryExecutor.execute(modelName, fullPrompt, callback);
 		
+	}
+	
+	private boolean validateInput() {
+		if(symbolField.getText().trim().isEmpty() || askField.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "請填入股票代號與提問內容");
+			return false;
+		}
+		return true;
 	}
 	
 	public static void main(String[] args) {
