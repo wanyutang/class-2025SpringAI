@@ -84,13 +84,29 @@ public class QueryGUI extends JFrame {
 		// 將元件加入到 formPanel 中
 		formPanel.add(symbolLabel, gbc);
 		
-		// -- 創建 "選擇模型:" 標籤元件 ------------------------
+		// -- 創建 "輸入代號" 元件 ------------------------
 		symbolField = new JTextField(10);
 		// 元件放置位置
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		// 將元件加入到 formPanel 中
 		formPanel.add(symbolField, gbc);
+		
+		// -- 創建 "提問內容:" 標籤元件 ------------------------
+		JLabel askLabel = new JLabel("提問內容:");
+		// 元件放置位置
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		// 將元件加入到 formPanel 中
+		formPanel.add(askLabel, gbc);
+		
+		// -- 創建 "提問內容" 元件 ------------------------
+		askField = new JTextField(10);
+		// 元件放置位置
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		// 將元件加入到 formPanel 中
+		formPanel.add(askField, gbc);
 		
 		// 將 formPanel 放在 QueryGUI 主畫面的上方
 		add(formPanel, BorderLayout.NORTH);
