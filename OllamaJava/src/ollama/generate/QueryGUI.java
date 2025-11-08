@@ -238,9 +238,9 @@ public class QueryGUI extends JFrame {
 	// 是否關閉元件互動
 	private void disableInputs(boolean disable) {
 		queryBtn.setEnabled(!disable);
-		modelCombo.setEditable(!disable);
+		modelCombo.setEnabled(!disable);
 		symbolField.setEnabled(!disable);
-		askField.setEditable(!disable);
+		askField.setEnabled(!disable);
 	}
 	
 	public static void main(String[] args) {
