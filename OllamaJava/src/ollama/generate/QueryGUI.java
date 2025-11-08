@@ -24,6 +24,7 @@ public class QueryGUI extends JFrame {
 	// 視覺元件
 	private JComboBox<String> modelCombo;
 	private JTextField symbolField;
+	private JComboBox<String> askDefaultCombo;
 	private JTextField askField;
 	private JButton queryBtn;
 	private JTextArea resultArea;
@@ -38,6 +39,18 @@ public class QueryGUI extends JFrame {
 	
 	private static final String[] MODEL_NAMES = {
 			"llama3.1:8b", "qwen3:4b", "qwen3:0.6b", "martain7r/finance-llama-8b:fp16"
+	};
+	
+	private static final String[] ASK_DEFAULT = {
+			"基於目前本益比、殖利率和股價淨值比，是否適合買入該股票？", 
+			"請分析該股票目前的估值是否合理，是否有高估或低估的風險？",
+			"該股票的財務指標顯示其股價有何投資潛力和風險？",
+			"依據本益比與殖利率，預測該股票未來1年的股價走勢或投資價值？",
+			"該股票的股價淨值比分別對應哪些風險和收益機會？",
+			"請基於目前財務指標，給出該股票的多空建議（買入/持有/賣出）。",
+			"如何解讀該股票的股利發放趨勢及其對股票價值的影響？",
+			"該股票目前的財務狀況是否支持持續派發穩定股利？",
+			"需要注意哪些指標反映出該股票可能的經營或市場風險？"
 	};
 	
 	private QueryGUI() {
