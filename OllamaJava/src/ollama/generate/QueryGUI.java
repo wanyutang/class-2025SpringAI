@@ -108,6 +108,17 @@ public class QueryGUI extends JFrame {
 		// 將元件加入到 formPanel 中
 		formPanel.add(askField, gbc);
 		
+		// -- 創建 "查詢" 元件 ------------------------
+		queryBtn = new JButton("查詢");
+		// 元件放置位置
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		// 設定 button 不填滿整個格子大小(預設大小即可)
+		gbc.fill = GridBagConstraints.NONE;
+		// 將元件加入到 formPanel 中
+		formPanel.add(queryBtn, gbc);
+				
+		
 		// 將 formPanel 放在 QueryGUI 主畫面的上方
 		add(formPanel, BorderLayout.NORTH);
 		
