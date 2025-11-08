@@ -1,6 +1,12 @@
 package ollama.generate;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -67,8 +73,40 @@ public class QueryExecutor {
 						.build();
 				
 				try(Response response = client.newCall(request).execute()) {
-				
 					
+					if(!response.isSuccessful()) {
+						callback.onHttpError(response.code());
+						return;
+					}
+					
+					// 接收串流資料+分析
+					try(InputStream is = response.body().byteStream();
+						InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+						BufferedReader reader = new BufferedReader(isr);) {
+						
+						// 分析資料
+						Gson gson = new Gson();
+						String line = null;
+						while((line = reader.readLine()) != null) {
+							if(line.isBlank()) continue; // 此行掠過讀下一行
+							
+							JsonObject obj = gson.fromJson(line, JsonObject.class);
+							if(obj.has("response") && !obj.get("response").isJsonNull()) {
+								String resp = obj.get("response").getAsString();
+								// 將字串轉成字元逐一回報
+								for(char ch : resp.toCharArray()) {
+									callback.onResponseChar(ch);
+								}
+							}
+							if(obj.has("done") && obj.get("done").getAsBoolean()) {
+								break;
+							}
+						}
+						
+					}
+					
+					// 完成
+					callback.onComplete();
 					
 				}
 				
