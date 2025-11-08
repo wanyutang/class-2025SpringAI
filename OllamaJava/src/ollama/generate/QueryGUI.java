@@ -40,7 +40,8 @@ public class QueryGUI extends JFrame {
 	};
 	
 	private QueryGUI() {
-		initUI();
+		initUI(); // 畫面初始
+		initListeners(); // 初始監聽
 	}
 	
 	// 初始 UI 配置
@@ -148,6 +149,10 @@ public class QueryGUI extends JFrame {
 		modelCombo.setSelectedIndex(0); // 預設值 = 0
 		symbolField.setText("2330");
 		askField.setText("請建議此檔股票的買賣區間");		
+	}
+	
+	private void initListeners() {
+		queryBtn.addActionListener(e -> onQueryClicked());
 	}
 	
 	private void onQueryClicked() {
