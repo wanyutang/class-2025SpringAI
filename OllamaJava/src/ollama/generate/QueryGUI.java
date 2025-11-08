@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Timer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import ollama.generate.QueryExecutor.QueryCallback;
 
@@ -243,6 +243,24 @@ public class QueryGUI extends JFrame {
 		askField.setEnabled(!disable);
 	}
 	
+	// 動畫開始
+	private void startLoadingAnimation() {
+		frameIndex = 0;
+		animTimer = new Timer(350, e -> {
+			queryBtn.setText(loadingFrames[frameIndex]);
+			frameIndex = (frameIndex + 1) % loadingFrames.length;
+		});
+		animTimer.start();
+	}
+	
+	// 動畫結束
+	private void stopLoadingAnimation() {
+		if(animTimer != null) {
+			animTimer.stop();
+		}
+		queryBtn.setText("查詢");
+	}
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			new QueryGUI().setVisible(true);
