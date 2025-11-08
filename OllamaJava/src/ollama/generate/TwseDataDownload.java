@@ -14,8 +14,18 @@ public class TwseDataDownload {
 	
 	public static void main(String[] args) {
 		//String jsonString = getStringAllData();
-		String jsonString = getStringDataWithFields("2330");
+		//String jsonString = getStringDataWithFields("2330");
+		String jsonString = getStringDataWithPrompt("2330");
 		System.out.println(jsonString);
+	}
+	
+	public static String getStringDataWithPrompt(String symbol) {
+		String jsonString = getStringDataWithFields(symbol);
+		if(jsonString == null) {
+			return null;
+		}
+		String prompt = "有一檔股票財金資訊如下: " + jsonString;
+		return prompt;
 	}
 	
 	public static String getStringDataWithFields(String symbol) {
