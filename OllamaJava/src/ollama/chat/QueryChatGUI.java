@@ -203,6 +203,12 @@ public class QueryChatGUI extends JFrame {
 				assistantMessage.put("content", assistantContent.toString());
 				messageHistory.add(assistantMessage);
 				
+				// log 儲存 -------------------------------------------------
+				String userInput = askField.getText();
+				String botMessage = assistantContent.toString();
+				DataFetcher.saveLog(userInput, botMessage);
+				// -------------------------------------------------
+				
 				resultArea.append("\n\n=== 查詢完成 ===\n");
 				disableInputs(false);
 				stopLoadingAnimation();
