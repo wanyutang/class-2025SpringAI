@@ -10,7 +10,7 @@ import java.util.List;
 public class DataFetcher {
 	
 	// 從 chat_prompts 資料表中讀取所有預設提示詞
-	public static List<String> loadPromptsFromDB() {
+	public static String[] loadPromptsFromDB() {
 		
 		List<String> prompts = new ArrayList<>();
 		String sql = "select prompt_text from chat_prompts";
@@ -27,7 +27,7 @@ public class DataFetcher {
 			e.printStackTrace();
 		}
 		
-		return prompts;
+		return prompts.toArray(new String[0]);
 	}
 	
 }
