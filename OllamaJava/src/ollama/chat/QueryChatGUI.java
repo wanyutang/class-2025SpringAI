@@ -176,7 +176,11 @@ public class QueryChatGUI extends JFrame {
      *  5. 回應完成後將結果回存對話歷史，恢復輸入狀態
      */
     private void onQueryClicked() {
-        
+        String input = askField.getText().trim();
+        if(input.isEmpty()) {
+        	JOptionPane.showMessageDialog(this, "請輸入提問內容");
+        	return;
+        }
     	
     	
     }
