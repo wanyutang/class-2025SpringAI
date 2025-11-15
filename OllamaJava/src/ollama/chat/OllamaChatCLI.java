@@ -38,7 +38,8 @@ public class OllamaChatCLI {
 		List<Map<String, String>> messages = new ArrayList<>();
 		
 		// 利用 QueryChatExecutor 與 AI 持續對話
-		// 請完成 !
+		// 請完成 ! 完成後請 +6
+		
 		
 		scanner.close();
 	}
