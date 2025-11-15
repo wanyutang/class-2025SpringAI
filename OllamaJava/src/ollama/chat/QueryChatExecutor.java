@@ -1,5 +1,8 @@
 package ollama.chat;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +12,9 @@ import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class QueryChatExecutor {
 	
@@ -55,8 +61,52 @@ public class QueryChatExecutor {
 				jsonBody.add("messages", gson.toJsonTree(messages));
 				jsonBody.addProperty("stream", true);
 				
+				// 將 jsonBody 物件轉為字串並形成請求內容
+				RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
+				
+				// 建立 HTTP POST 請求
+				Request request = new Request.Builder()
+						.url(CHAT_WEB_API)
+						.post(body)
+						.build();
+				
+				// 執行請求
+				try(Response response = client.newCall(request).execute()) {
+					
+					// 檢查回應狀態
+					if(!response.isSuccessful()) {
+						callback.onHttpError(response.code());
+					}
+					
+					// 處的串流資料 ByteStream 並逐行讀取
+					try(InputStream        is = response.body().byteStream(); // 單位 byte 
+						InputStreamReader isr = new InputStreamReader(is, "UTF-8"); // 單位 char
+						BufferedReader reader = new BufferedReader(isr)) { // 可逐行讀取
+							
+						String line = null;
+						while((line = reader.readLine()) != null) {
+							if(line.isBlank()) continue; // 空行跳過
+							
+							// 解析 json 資料
+							JsonObject obj = gson.fromJson(line, JsonObject.class);
+							
+							// 檢查 json 中是否有 message 欄位, message 欄位內是否有 content 欄位
+							if(obj.has("message") && obj.get("message").getAsJsonObject().has("content")) {
+								String content = obj.get("message").getAsJsonObject().get("content").getAsString();
+								// 將 content 內容逐字回調
+								for(char ch : content.toCharArray()) {
+									callback.onResponseChar(ch);
+								}
+							}
+						}	
+					}
+					
+					// 串流結束, 觸發完成回調
+					callback.onComplete();
+				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				// 發生例外錯誤, 傳送錯誤訊息到回調
+				callback.onError(e.getMessage());
 			}
 			
 		};
