@@ -43,7 +43,7 @@ import okhttp3.Response;
 public class OllamaChatExample {
 	
 	// 定義 ollama web api url
-	private static final String CHAT_WEB_API = "http://localhsot:11434/api/chat";
+	private static final String CHAT_WEB_API = "http://localhost:11434/api/chat";
 	
 	// 定義媒體格式(MediaTyep)類型為 json
 	private static final MediaType JSON = MediaType.get("appliaction/json;charset=utf-8");
