@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 
@@ -42,6 +45,24 @@ public class QueryChatExecutor {
      * @param callback 回調，負責處理逐字回應與錯誤
      */
 	public void execute(String modelName, List<Map<String, String>> messages, QueryCallback callback) {
+		// 建立執行緒工作
+		Runnable runnable = () -> {
+			try {
+				Gson gson = new Gson();
+				// 建構 JSON body 用於傳送 chat 請求
+				JsonObject jsonBody = new JsonObject();
+				jsonBody.addProperty("model", modelName);
+				jsonBody.add("messages", gson.toJsonTree(messages));
+				jsonBody.addProperty("stream", true);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		};
+		
+		// 建立執行緒來執行
+		new Thread(runnable).start();
 		
 	}
 }
