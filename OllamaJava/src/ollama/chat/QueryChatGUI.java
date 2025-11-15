@@ -182,7 +182,14 @@ public class QueryChatGUI extends JFrame {
         	return;
         }
     	
+        // 將使用者輸入以 user 角色加入到對話歷史
+    	Map<String, String> userMessage = new HashMap<>();
+    	userMessage.put("role", "user");
+    	userMessage.put("content", input);
+    	messageHistory.add(userMessage);
     	
+    	
+        
     }
 
     /**
