@@ -135,11 +135,7 @@ public class OllamaChatExample {
 						Gson gson = new Gson();
 						while((line = reader.readLine()) != null) {
 							JsonObject obj = gson.fromJson(line, JsonObject.class);
-							if(obj.get("response") == null) {
-								continue;
-							}
-							String responseContent = obj.get("response").getAsString();
-							System.out.print(responseContent);
+							System.out.println(obj);
 						}
 					}
 					
@@ -152,7 +148,7 @@ public class OllamaChatExample {
 			}
 			
 			
-			scanner.nextLine();
+			//scanner.nextLine();
 		}	
 		
 		
