@@ -1,3 +1,5 @@
+use ai;
+
 INSERT INTO chat_logs (user_input, bot_response) VALUES
 ('雙層牛肉堡的價格是多少？', '雙層牛肉堡的價格為新台幣150元。'),
 ('麥克雞塊的價格是多少？', '麥克雞塊的價格為新台幣120元。'),
