@@ -1,13 +1,21 @@
 package ollama.chat;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 範例名稱：OllamaChatExample（使用 OkHttp3 版本）
@@ -89,28 +97,59 @@ public class OllamaChatExample {
 			//---------------------------------------------------
             // 2. 建立 OkHttpClient 實例 (加入 Timeout)
             //---------------------------------------------------
-			
-			
-			
+			OkHttpClient client = new OkHttpClient.Builder()
+					.connectTimeout(60, TimeUnit.SECONDS)
+					.readTimeout(60, TimeUnit.SECONDS)
+					.writeTimeout(60, TimeUnit.SECONDS)
+					.build();
 			
 			//---------------------------------------------------
             // 3. 建立 RequestBody (將 JSON 字串包裝成請求主體)
             //---------------------------------------------------
-			
-			
-			
+			RequestBody body = RequestBody.create(jsonBody, JSON);
 			
 			//---------------------------------------------------
             // 4. 建立 Request 物件
             //---------------------------------------------------
-			
-			
-			
+			Request request = new Request.Builder()
+					.url(CHAT_WEB_API)
+					.post(body)
+					.build();
 			
 			//---------------------------------------------------
             // 5. 同步發送請求並取得回應
             //---------------------------------------------------
-			
+			try(Response response = client.newCall(request).execute()){
+				if(!response.isSuccessful()) {
+					System.out.printf("請求失敗, HTTP 狀態碼: %n%s%n", response.code());
+					continue;
+				}
+				
+				// 取得回應內容
+				if(supportStream) { // "stream": true
+					try(InputStream        is = response.body().byteStream(); // 單位 byte 
+						InputStreamReader isr = new InputStreamReader(is, "UTF-8"); // 單位 char
+						BufferedReader reader = new BufferedReader(isr)) { // 可逐行讀取
+						
+						String line = null;
+						Gson gson = new Gson();
+						while((line = reader.readLine()) != null) {
+							JsonObject obj = gson.fromJson(line, JsonObject.class);
+							if(obj.get("response") == null) {
+								continue;
+							}
+							String responseContent = obj.get("response").getAsString();
+							System.out.print(responseContent);
+						}
+					}
+					
+				} else { // "stream": false
+					String responseBody = response.body().string();
+					System.out.printf("%n回應碼: %s%n", response.code());
+					System.out.printf("完整回應: %s%n", responseBody);
+				}
+				
+			}
 			
 			
 			scanner.nextLine();
