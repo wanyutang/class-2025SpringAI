@@ -26,6 +26,9 @@ import ollama.chat.QueryChatExecutor.QueryCallback;
  */
 public class OllamaChatCLI {
 	
+	// 是否已完成
+	private static boolean isCompleted = false;
+			
 	public static void main(String[] args) throws Exception {
 		Scanner scanner = new Scanner(System.in);
 		QueryChatExecutor executor = new QueryChatExecutor();
@@ -41,10 +44,13 @@ public class OllamaChatCLI {
 		List<Map<String, String>> messages = new ArrayList<>();
 		
 		System.out.println("對話開始, 輸入 q/quit 結束.");
+		
 		// 利用 QueryChatExecutor 與 AI 持續對話
 		while(true) {
+			isCompleted = false;
+			
 			System.out.print("\n你說: ");
-			String userInput = scanner.nextLine();
+			String userInput = scanner.next();
 			
 			if(userInput.equalsIgnoreCase("q") || userInput.equalsIgnoreCase("quit")) {
 				System.out.println("對話結束");
@@ -80,12 +86,23 @@ public class OllamaChatCLI {
 				
 				@Override
 				public void onComplete() {
+					isCompleted = true;
 					System.out.println(); // 完成後換行
 				}
 			};
 			
 			// 呼叫 QueryChatExecutor
 			executor.execute(modelName, messages, callback);
+			
+			// 等待 isCompleted = true
+			// 每隔一秒鐘檢查
+			while(!isCompleted) {
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					
+				}
+			}
 			
 		}
 		
