@@ -76,11 +76,6 @@ public class DataFetcher {
 			e.printStackTrace();
 		}
 		
-		
 		return history;
 	}
-	
-	
-	
-	
 }
