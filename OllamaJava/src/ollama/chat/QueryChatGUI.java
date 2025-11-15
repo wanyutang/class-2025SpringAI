@@ -62,7 +62,7 @@ public class QueryChatGUI extends JFrame {
     /**
      * 建構子，執行 UI 初始化與事件監聽設定
      */
-    public QueryChatGUI2() {
+    public QueryChatGUI() {
         initUI();
         initListeners();
     }
