@@ -36,7 +36,26 @@
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		
+		<!-- Spring AI - Ollama -->
+	    <dependency>
+		    <groupId>org.springframework.ai</groupId>
+		    <artifactId>spring-ai-ollama</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
 		
+		<!-- Spring AI Client chat -->
+		<dependency>
+		    <groupId>org.springframework.ai</groupId>
+		    <artifactId>spring-ai-client-chat</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		
+		<!-- Spring AI Advisors（自帶 in-memory 向量庫） -->
+	    <dependency>
+	        <groupId>org.springframework.ai</groupId>
+	        <artifactId>spring-ai-advisors-vector-store</artifactId>
+	        <version>1.0.0-M8</version>
+	    </dependency>
 		
 
 		<dependency>
