@@ -42,7 +42,15 @@ public class OllamaService {
 		// 咒語
 		Prompt prompt = new Prompt(q, options);
 		
-		return chatModel.call(prompt).getResult().getOutput().getText();
+		try {
+			return chatModel.call(prompt).getResult().getOutput().getText();
+		} catch (WebClientResponseException e) {
+			return ask(q);
+		} catch (TransientAiException e) {
+			return "記憶體不足錯誤";
+		} catch (Exception e) {
+			return "其他錯誤";
+		}
 		
 	}
 	
