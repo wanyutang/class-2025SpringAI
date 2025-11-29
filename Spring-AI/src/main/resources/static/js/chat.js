@@ -53,6 +53,7 @@ function stream() {
 		eventSource.close();
 		
 		chatBox.innerText += "\n[Stream end]\n\n";
+		chatBox.scrollTo(0, chatBox.scrollHeight);
 	};
 	
 }
