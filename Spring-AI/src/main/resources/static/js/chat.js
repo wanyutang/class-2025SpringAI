@@ -14,7 +14,7 @@ function ask() {
 		.then(res => res.text())
 		.then(answer => {
 			chatBox.innerText += `AI: ${answer}\n\n`;
-			chatBox.scrollTo = chatBox.scrollHeight;
+			chatBox.scrollTo(0, chatBox.scrollHeight);
 		})
 		.catch(err => {
 			chatBox.innerText += "錯誤呼叫\n";
@@ -44,7 +44,7 @@ function stream() {
 	eventSource.onmessage = function(event) {
 		chatBox.innerText += event.data;
 		// 讓卷軸能自動滾到最底下, 確保使用者能看到最新內容
-		chatBox.scrollTo = chatBox.scrollHeight;
+		chatBox.scrollTo(0, chatBox.scrollHeight);
 	};
 	
 	// 當連線失敗或後端關閉時就會觸發 onerror
