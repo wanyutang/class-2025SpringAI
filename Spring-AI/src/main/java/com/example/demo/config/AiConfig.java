@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AiConfig {
 	
-	private String ollamaApiURL = "http://localhosy:11434";
+	private String ollamaApiURL = "http://localhost:11434";
 	private String defaultModel = "llama3.1:8b";
 	
 	@Bean
