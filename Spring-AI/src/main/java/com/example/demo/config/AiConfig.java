@@ -1,5 +1,7 @@
 package com.example.demo.config;
 
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.ollama.api.OllamaChatOptions;
@@ -31,5 +33,13 @@ public class AiConfig {
 				)
 				.build();
 	}
+	
+	@Bean
+	public ChatMemory chatMemory() {
+		return MessageWindowChatMemory.builder()
+				.maxMessages(100) // 保留最近 100 筆
+				.build();
+	}
+	
 	
 }
