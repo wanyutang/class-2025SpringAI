@@ -5,6 +5,8 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+
 @Service
 public class OllamaService {
 	
@@ -39,6 +41,36 @@ public class OllamaService {
 		Prompt prompt = new Prompt(q, options);
 		
 		return chatModel.call(prompt).getResult().getOutput().getText();
+		
+	}
+	
+	// 使用預設模型的 stream
+	public Flux<String> stream(String q) {
+		return chatModel.stream(new Prompt(q))
+				.map(chunk -> chunk.getResult().getOutput().getText());
+	}
+	
+	// 可以指定模型的 stream
+	public Flux<String> stream(String q, String useModel) {
+		
+		if (useModel == null || useModel.isBlank()) {
+			return stream(q);
+		}
+		
+		if(useModel.contains("finance")) {
+			useModel = "martain7r/finance-llama-8b:fp16";
+		}
+		
+		// 變更模型
+		OllamaChatOptions options = OllamaChatOptions.builder()
+				.model(useModel)
+				.build();
+		
+		// 咒語
+		Prompt prompt = new Prompt(q, options);
+		
+		return chatModel.stream(prompt)
+				.map(chunk -> chunk.getResult().getOutput().getText());
 		
 	}
 	
