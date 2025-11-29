@@ -26,6 +26,10 @@ public class OllamaService {
 			return ask(q);
 		}
 		
+		if(useModel.contains("finance")) {
+			useModel = "martain7r/finance-llama-8b:fp16";
+		}
+		
 		// 變更模型
 		OllamaChatOptions options = OllamaChatOptions.builder()
 				.model(useModel)
