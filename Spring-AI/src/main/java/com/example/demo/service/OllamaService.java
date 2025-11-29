@@ -49,7 +49,7 @@ public class OllamaService {
 		} catch (TransientAiException e) {
 			return "記憶體不足錯誤";
 		} catch (Exception e) {
-			return "其他錯誤";
+			return "其他";
 		}
 		
 	}
