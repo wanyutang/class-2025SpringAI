@@ -4,6 +4,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import reactor.core.publisher.Flux;
 
@@ -70,7 +71,13 @@ public class OllamaService {
 		Prompt prompt = new Prompt(q, options);
 		
 		return chatModel.stream(prompt)
-				.map(chunk -> chunk.getResult().getOutput().getText());
+				.map(chunk -> chunk.getResult().getOutput().getText())
+				.onErrorResume(WebClientResponseException.class, e -> { // 模型錯誤
+					return stream(q); // 改成使用預設模型
+				})
+				.onErrorResume(Exception.class, e -> {
+					return Flux.just("其他錯誤");
+				});
 		
 	}
 	

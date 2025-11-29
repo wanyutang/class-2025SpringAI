@@ -42,11 +42,7 @@ public class OllamaController {
 	// http://localhost:8080/ollama/stream?q=台灣在哪裡
 	@GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<String> stream(@RequestParam String q, @RequestParam(required = false) String model) {
-		try {
-			return ollamaService.stream(q, model);
-		} catch (Throwable e) {
-			return ollamaService.stream(q); // 使用預設模型
-		}
+		return ollamaService.stream(q, model);
 	}
 	
 }
