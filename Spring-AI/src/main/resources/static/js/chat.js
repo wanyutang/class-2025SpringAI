@@ -1,5 +1,5 @@
 const chatBox = document.getElementById("chat-box");
-const questionInput = docuemt.getElementById("question");
+const questionInput = document.getElementById("question");
 
 // 一次性回答: 呼叫 /ollama/ask
 function ask() {
