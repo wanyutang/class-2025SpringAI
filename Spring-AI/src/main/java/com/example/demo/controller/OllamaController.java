@@ -27,7 +27,12 @@ public class OllamaController {
 	// http://localhost:8080/ollama/ask?q=台灣在哪裡
 	@GetMapping("/ask")
 	public String ask(@RequestParam String q, @RequestParam(required = false) String model) {
-		return ollamaService.ask(q, model);
+		try {
+			return ollamaService.ask(q, model);
+		} catch (Exception e) {
+			return ollamaService.ask(q); // 使用預設模型
+		}
+		
 	}
 	
 	// Prompt: 咒語(要問 AI 的問題)
