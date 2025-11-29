@@ -29,7 +29,7 @@ public class OllamaController {
 	public String ask(@RequestParam String q, @RequestParam(required = false) String model) {
 		try {
 			return ollamaService.ask(q, model);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return ollamaService.ask(q); // 使用預設模型
 		}
 		
@@ -44,7 +44,7 @@ public class OllamaController {
 	public Flux<String> stream(@RequestParam String q, @RequestParam(required = false) String model) {
 		try {
 			return ollamaService.stream(q, model);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return ollamaService.stream(q); // 使用預設模型
 		}
 	}
