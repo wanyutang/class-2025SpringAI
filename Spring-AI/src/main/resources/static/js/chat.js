@@ -21,3 +21,10 @@ function ask() {
 			console.error(err);
 		});
 }
+
+// 逐字回答: 呼叫 /ollama/stream
+// 透過 EventSource 可以不間斷的持續收到 Server 端傳來的訊息直到 close 為止
+// 每收到一個訊息就會觸發 onmessage 方法
+function stream() {
+	
+}
