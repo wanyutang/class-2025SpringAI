@@ -22,6 +22,10 @@ public class OllamaService {
 	
 	// 可以指定模型的 ask
 	public String ask(String q, String useModel) {
+		if(useModel == null) {
+			return ask(q);
+		}
+		
 		// 變更模型
 		OllamaChatOptions options = OllamaChatOptions.builder()
 				.model(useModel)
