@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OllamaService {
 	
-	private OllamaChatModel chatModel;
+	private final OllamaChatModel chatModel;
 	
 	// Spring 自動注入機制會利用建構子注入參數
 	public OllamaService(OllamaChatModel chatModel) {
